@@ -23,9 +23,9 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int numberOfCoffees = 2;
-        display(numberOfCoffees);
-        displayPrice(numberOfCoffees*3);
+        displayPrice(quantity*3);
+        quantity = 0;
+        display(quantity);
     }
 
     /**
