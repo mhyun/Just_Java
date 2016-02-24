@@ -1,18 +1,20 @@
 package com.example.android.justjava;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends ActionBarActivity {
 
-    int quantity = 0;
+    int quantity = 1;
     int priceOfCoffee = 3;
     boolean whippedCream;
     boolean chocolate;
@@ -41,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
             priceMessage += "\nTotal: $" + calculatePrice(whippedCream, chocolate, quantity, priceOfCoffee);
             priceMessage += "\nThank you!";
         displayMessage(priceMessage);
-        quantity = 0;
+        quantity = 1;
         displayQuantity(quantity);
     }
 
@@ -62,16 +64,39 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the '+' button is pushed and will change the quantity to 3
      */
     public void increment(View view) {
-        quantity = quantity + 1;
-        displayQuantity(quantity);
+        if (quantity == 100)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "You cannot order more that 100 cups at a time!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        else {
+            quantity = quantity + 1;
+            displayQuantity(quantity);
+        }
     }
 
     /**
      * This method is called when the '-' button is pushed and will change the quantity to 1
      */
     public void decrement(View view) {
-        quantity = quantity -1;
-        displayQuantity(quantity);
+        if (quantity == 1) {
+            Context context = getApplicationContext();
+            CharSequence text = "You cannot order less than 1 cup!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        else {
+            quantity = quantity -1;
+            displayQuantity(quantity);
+        }
     }
     /**
      * This method displays the given quantity value on the screen.
