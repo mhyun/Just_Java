@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -30,8 +31,10 @@ public class MainActivity extends ActionBarActivity {
         whippedCream = whippedCreamView.isChecked();
         CheckBox chocolateView = (CheckBox) findViewById(R.id.chocolate_check_box);
         chocolate = chocolateView.isChecked();
+        EditText nameEditTextView = (EditText) findViewById(R.id.name_edit_text);
+        String name = nameEditTextView.getText().toString();
         String priceMessage = "";
-            priceMessage += "Name: ";
+            priceMessage += "Name: " + name;
             priceMessage += "\nAdd whipped cream? " + whippedCream;
             priceMessage += "\nAdd chocolate? " + chocolate;
             priceMessage += "\nQuantity: " + quantity;
