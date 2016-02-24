@@ -3,9 +3,8 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
-
-import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
@@ -14,6 +13,9 @@ public class MainActivity extends ActionBarActivity {
 
     int quantity = 0;
     int priceOfCoffee = 3;
+    boolean whippedCream;
+    boolean chocolate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +26,33 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        String priceMessage = "Total: $" + (quantity * priceOfCoffee) + "\nThank you!";
+        CheckBox whippedCreamView = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        whippedCream = whippedCreamView.isChecked();
+        CheckBox chocolateView = (CheckBox) findViewById(R.id.chocolate_check_box);
+        chocolate = chocolateView.isChecked();
+        String priceMessage = "";
+            priceMessage += "Name: ";
+            priceMessage += "\nAdd whipped cream? " + whippedCream;
+            priceMessage += "\nAdd chocolate? " + chocolate;
+            priceMessage += "\nQuantity: " + quantity;
+            priceMessage += "\nTotal: $" + calculatePrice(whippedCream, chocolate, quantity, priceOfCoffee);
+            priceMessage += "\nThank you!";
         displayMessage(priceMessage);
         quantity = 0;
-        display(quantity);
+        displayQuantity(quantity);
+    }
+
+    public int calculatePrice(boolean whi, boolean cho, int quan, int pri) {
+        int toppings = 0;
+
+        if(whi == true) {
+            toppings = toppings + 1;
+        }
+        if(cho == true) {
+            toppings = toppings + 2;
+        }
+        int total = quan * ( pri + toppings);
+        return total;
     }
 
     /**
@@ -35,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
      */
     public void increment(View view) {
         quantity = quantity + 1;
-        display(quantity);
+        displayQuantity(quantity);
     }
 
     /**
@@ -43,30 +68,22 @@ public class MainActivity extends ActionBarActivity {
      */
     public void decrement(View view) {
         quantity = quantity -1;
-        display(quantity);
+        displayQuantity(quantity);
     }
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void display(int number) {
+    private void displayQuantity(int number) {
         TextView quantityTextView = (TextView) findViewById(
                 R.id.quantity_text_view);
         quantityTextView.setText("" + number);
     }
 
     /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-
-    /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 }
